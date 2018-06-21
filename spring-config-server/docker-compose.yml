@@ -1,0 +1,65 @@
+version: '3'
+services:
+  config-server:
+    build:
+      context: C:\Users\shgujarathi\Desktop\Spring-POC\spring-config-server
+      dockerfile: Dockerfile
+    image: spring-config-server
+    ports:
+    - 9000:9000
+    networks:
+    - splunk_default
+    container_name: spring-config-server
+    logging:
+      driver: splunk
+      options:
+        splunk-url: http://localhost:8088
+        splunk-token: 41b73fd5-a62a-4446-b5ef-c099bd813d78
+        splunk-insecureskipverify: 'true'
+  config-client:
+    build:
+      context: C:\Users\shgujarathi\Desktop\Spring-POC\spring-config-client
+      dockerfile: Dockerfile
+    image: spring-config-client
+    ports:
+    - 8001:8001
+    networks:
+    - splunk_default
+    container_name: spring-config-client
+    logging:
+      driver: splunk
+      options:
+        splunk-url: http://localhost:8088
+        splunk-token: 41b73fd5-a62a-4446-b5ef-c099bd813d78
+        splunk-insecureskipverify: 'true'
+  spring-slueth:
+    build:
+      context: C:\Users\shgujarathi\Desktop\Microservices\sleuth-demo
+      dockerfile: Dockerfile
+    image: spring-slueth-app
+    ports:
+    - 8002:8002
+    networks:
+    - splunk_default
+    container_name: spring-slueth-app
+    logging:
+      driver: splunk
+      options:
+        splunk-url: http://localhost:8088
+        splunk-token: 41b73fd5-a62a-4446-b5ef-c099bd813d78
+        splunk-insecureskipverify: 'true'
+  zipkin:
+    image: openzipkin/zipkin:latest
+    ports:
+    - 9411:9411
+    networks:
+    - splunk_default
+    container_name: zipkinserver
+    logging:
+      driver: splunk
+      options:
+        splunk-url: http://localhost:8088
+        splunk-token: 41b73fd5-a62a-4446-b5ef-c099bd813d78
+        splunk-insecureskipverify: 'true'
+networks:
+  splunk_default: 

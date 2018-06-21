@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: spring-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/shgujarathi/config-prop
+          # uri: file:///C:/config-server-repo
+         
+server:
+  port: 9000
+management:
+  security:
+    enabled: false
